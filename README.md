@@ -1,39 +1,119 @@
-# SecureCheck: A Python-SQL Digital Ledger for Police Post Logs
+# SecureCheck - Police Stop Digital Ledger
 
 ## Project Overview
 
-SecureCheck is a real-time police monitoring and digital ledger system developed using Python, SQLite, SQL, Pandas, and Streamlit.
-
-The project simulates a modern police check-post management system where vehicle stop records are digitally stored, analyzed, filtered, and monitored using SQL-powered analytics and an interactive Streamlit dashboard.
-
-The system helps law enforcement agencies:
-
-- Track vehicle movements
-- Monitor violations and arrests
-- Identify suspicious activities
-- Analyze traffic stop trends
-- Generate automated police incident summaries
-- Improve operational efficiency using SQL analytics
-
----
-
-# Domain
-
-Law Enforcement & Public Safety
-
----
-
-# Skills Used
+SecureCheck is a professional police traffic stop analytics dashboard built using:
 
 - Python
-- SQL
+- Streamlit
 - SQLite
 - Pandas
-- Streamlit
-- Data Cleaning
-- Data Analysis
-- Data Visualization
-- Dashboard Development
+- Plotly
+
+The project simulates a real-time police monitoring and analytics system capable of:
+
+- Managing police stop records
+- Performing vehicle intelligence searches
+- Generating analytics dashboards
+- Running SQL-based traffic stop analysis
+- Visualizing crime and enforcement patterns
+
+---
+
+# Project Architecture
+
+```text
+traffic_stops.xlsx
+        ↓
+ETL.py
+(Extract → Transform → Load)
+        ↓
+cleaned_traffic_stops.csv
+        ↓
+securecheck.db
+        ↓
+policecheck.py
+(Streamlit Dashboard)
+```
+
+---
+
+# Folder Structure
+
+```text
+Police Secure Check/
+│
+├── data/
+│   ├── raw/
+│   │   └── traffic_stops.xlsx
+│   │
+│   └── processed/
+│       └── cleaned_traffic_stops.csv
+│
+├── ETL.py
+├── policecheck.py
+├── securecheck.db
+├── README.md
+├── requirements.txt
+└── SecureCheck.pptx
+```
+
+---
+
+# Features
+
+## Operations Dashboard
+
+- Filter police stop records
+- Country-based filtering
+- Gender-based filtering
+- Violation-based filtering
+- KPI metrics:
+  - Total Stops
+  - Arrests
+  - Drug-related stops
+  - Searches conducted
+
+### Vehicle Intelligence Search
+
+Search using:
+- Full vehicle number
+- Partial vehicle number
+- Last 4 digits
+
+Automatically generates:
+- Incident summaries
+- Search details
+- Arrest details
+- Drug-related stop information
+
+---
+
+## Analytics Dashboard
+
+### Vehicle and Searches
+- Top 10 vehicles in drug-related stops
+- Most frequently searched vehicles
+
+### Driver Demographics
+- Driver age group with highest arrest rate
+- Gender distribution by country
+- Race and gender with highest search rate
+
+### Time-Based Analysis
+- Time of day with most traffic stops
+- Night vs day arrest likelihood
+
+### Violations Analysis
+- Average stop duration by violation
+- Violations with highest search or arrest rate
+
+### Country-Level Insights
+- Countries with highest drug-related stops
+- Arrest rate by country and violation
+
+### Complex Analysis
+- Top 5 violations with highest arrest rates
 
 ---
 
@@ -41,248 +121,70 @@ Law Enforcement & Public Safety
 
 | Technology | Purpose |
 |---|---|
-| Python | Data processing and backend logic |
-| SQLite | Database management |
-| SQL | Querying and analytics |
-| Pandas | Data cleaning and manipulation |
+| Python | Core programming |
+| Pandas | Data cleaning and transformation |
+| SQLite | Database storage |
 | Streamlit | Interactive dashboard |
 | Plotly | Data visualization |
+| OpenPyXL | Excel file handling |
 
 ---
 
-# Problem Statement
+# ETL Pipeline
 
-Police check posts often rely on manual logging systems and disconnected databases, making vehicle tracking and criminal analysis inefficient.
-
-SecureCheck solves this problem by creating:
-
-- A centralized SQL-based digital ledger
-- Real-time vehicle intelligence search
-- Automated police reporting system
-- SQL-powered analytical dashboard
-- Data-driven law enforcement insights
-
----
-
-# Business Use Cases
-
-- Real-time logging of vehicle stops
-- Automated suspect vehicle lookup
-- Crime pattern analysis
-- Officer reporting dashboard
-- Arrest and violation monitoring
-- Traffic stop analytics
-- Drug-related stop tracking
-- Search and seizure analysis
-
----
-
-# Dataset Features
-
-| Column Name | Description |
-|---|---|
-| stop_date | Date of stop |
-| stop_time | Time of stop |
-| country_name | Country of stop |
-| driver_gender | Gender of driver |
-| driver_age | Driver age |
-| driver_race | Driver race |
-| violation | Type of violation |
-| search_conducted | Whether search was conducted |
-| search_type | Type of search |
-| stop_outcome | Stop outcome |
-| is_arrested | Arrest status |
-| stop_duration | Duration of stop |
-| drugs_related_stop | Drug-related stop status |
-| vehicle_number | Vehicle identification number |
-
----
-
-# Project Workflow
-
-## Step 1: Data Cleaning
-
-The raw Excel dataset is cleaned using Pandas.
-
-### Cleaning Tasks Performed
-
-- Removed columns containing all missing values
-- Handled missing values
-- Standardized gender values
-- Cleaned vehicle numbers
-- Converted dates and times
-- Removed invalid records
-
----
-
-## Step 2: Database Creation
-
-The cleaned dataset is loaded into SQLite.
-
-### Database Table
-
-```sql
-traffic_stops
-```
-
-The table stores all police stop records used by the dashboard and analytics engine.
-
----
-
-## Step 3: Streamlit Dashboard
-
-The interactive dashboard contains:
-
-### Operations Dashboard
-
-- Filter police records
-- Dynamic KPI metrics
-- Vehicle intelligence search
-- Automated incident summaries
-- Source traffic stop records
-
-### Analytics Dashboard
-
-- SQL-powered analysis
-- Violation trends
-- Arrest analysis
-- Demographic insights
-- Time-based stop analysis
-- Drug-related stop reports
-
----
-
-# Dashboard Features
-
-## 1. Filter Records
-
-Users can filter records by:
-
-- Country
-- Gender
-- Violation
-
-The filters dynamically update:
-
-- KPI metrics
-- Traffic stop source data
-
----
-
-## 2. KPI Metrics
-
-The dashboard displays:
-
-- Total Stops
-- Total Arrests
-- Drug Related Stops
-- Searches Conducted
-
----
-
-## 3. Vehicle Intelligence Search
-
-Users can search by:
-
-- Full vehicle number
-- Last 4 digits
-
-The system generates automated police-style narrative summaries.
-
-### Example Output
+The ETL pipeline is implemented in:
 
 ```text
-Vehicle Number:
-TN45AB1234
+ETL.py
+```
 
-A 27-year-old male driver
-was stopped for Speeding
-at 02:30 PM
-on 2020-05-12.
+## Extract
+- Reads raw traffic stop data from Excel
 
-No search was conducted.
-
-The driver received Citation.
-
-The stop lasted 6-15 Min.
-
-The stop was not drug-related.
+File:
+```text
+data/raw/traffic_stops.xlsx
 ```
 
 ---
 
-# SQL Analysis Implemented
-
-## Vehicle-Based Analysis
-
-- Top vehicles involved in drug-related stops
-- Most frequently searched vehicles
-
-## Demographic Analysis
-
-- Highest arrest rates by age
-- Gender distribution by country
-- Race and gender search analysis
-
-## Time-Based Analysis
-
-- Peak traffic stop hours
-- Day vs night arrest comparison
-
-## Violation Analysis
-
-- Violations with highest arrests
-- Search rate by violation
-- Average stop duration
-
-## Country-Level Analysis
-
-- Drug-related stops by country
-- Arrest rate by country and violation
-
-## Complex SQL Analysis
-
-- Top 5 violations with highest arrest rates
+## Transform
+Performs:
+- Date conversion
+- Time cleaning
+- Gender standardization
+- Vehicle number formatting
+- Null value removal
+- Duplicate removal
+- Boolean conversion
 
 ---
 
-# Project Structure
+## Load
 
+Outputs:
+- Cleaned CSV
+- SQLite database
+
+Generated files:
 ```text
-police check/
-│
-├── data/
-│   ├── raw/
-│   │   └── traffic_stops.xlsx
-│   │
-│   └── cleaned/
-│       └── cleaned_traffic_stops.csv
-│
-├── scripts/
-│   ├── data_cleaning.py
-│   ├── db_connection.py
-│   ├── load_to_sql.py
-│   └── sql_analysis.py
-│
-├── app.py
-├── securecheck.db
-├── requirements.txt
-└── README.md
+data/processed/cleaned_traffic_stops.csv
+securecheck.db
 ```
 
 ---
 
 # Installation
 
-## Clone the Repository
+## Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone <repository_url>
 ```
 
 ---
 
-# Install Dependencies
+## Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -290,63 +192,78 @@ pip install -r requirements.txt
 
 ---
 
-# Run Data Cleaning
+# How to Run the Project
+
+## Step 1 — Run ETL Pipeline
 
 ```bash
-python scripts/data_cleaning.py
+python ETL.py
+```
+
+This:
+- Cleans raw Excel data
+- Generates processed CSV
+- Creates SQLite database
+
+---
+
+## Step 2 — Run Streamlit Dashboard
+
+```bash
+streamlit run policecheck.py
 ```
 
 ---
 
-# Load Data into SQLite
+# Database
 
-```bash
-python scripts/load_to_sql.py
+Database used:
+```text
+securecheck.db
+```
+
+Main table:
+```sql
+traffic_stops
 ```
 
 ---
 
-# Run Streamlit Dashboard
+# Sample SQL Analysis
 
-```bash
-streamlit run app.py
+Example:
+
+```sql
+SELECT
+    violation,
+    ROUND(AVG(is_arrested) * 100, 2) AS arrest_rate
+FROM traffic_stops
+GROUP BY violation
+ORDER BY arrest_rate DESC;
 ```
 
 ---
 
-# Key Learnings
+# Performance Optimization
 
-- Real-world data cleaning
-- SQL database integration
-- Streamlit dashboard development
-- Dynamic filtering
-- SQL analytics
-- Police intelligence workflows
-- Interactive data visualization
-- Narrative report generation
+The project uses:
+- Cached database connections
+- SQLite for fast querying
+- Separate ETL pipeline
+- Preprocessed cleaned dataset
 
----
-
-# Future Enhancements
-
-- Role-based officer login system
-- Real-time vehicle blacklist alerts
-- GPS-enabled tracking
-- Predictive crime analysis
-- Machine learning-based suspect prediction
-- Multi-check-post synchronization
-- Cloud database integration
+This significantly improves dashboard loading speed.
 
 ---
 
-# Project Outcomes
+# Future Improvements
 
-- Faster police record management
-- Improved stop analysis
-- Automated intelligence reporting
-- Efficient SQL querying
-- Better operational visibility
-- Data-driven law enforcement decisions
+- User authentication
+- Real-time API integration
+- Geo-mapping of incidents
+- Predictive policing analytics
+- Machine learning-based risk scoring
+- Deployment to cloud platforms
 
 ---
 
@@ -358,4 +275,4 @@ Kumaaran J
 
 # License
 
-This project is developed for educational and portfolio purposes.
+This project is for educational and portfolio purposes.
